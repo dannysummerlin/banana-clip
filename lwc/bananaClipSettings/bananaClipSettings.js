@@ -1,4 +1,18 @@
-// selectRecordEditor.js
+// NOTES
+// https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.use_flow_custom_property_editor_sobject_action_example
+// inputVariables:
+// [{
+//     name: 'inputType',
+//     value: 'Account',
+//     valueDataType: 'Account'
+// }]
+// builderContext is real important
+// InvocableVariable:
+// [{
+//     typeName: 'T__inputCollection', 
+//     typeValue: 'Account' 
+// }]
+
 import { LightningElement, api } from 'lwc'
 
 export default class BananaClipSettings extends LightningElement {
