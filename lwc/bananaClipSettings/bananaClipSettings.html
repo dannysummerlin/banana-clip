@@ -1,0 +1,38 @@
+<template>
+	<lightning-combobox
+		name="templateName"
+		label="Template to Use"
+		value={templateName}
+		placeholder="Select template..."
+		options={templateOptions}
+		onchange={handleTemplateChange}>
+	</lightning-combobox>
+	<lightning-combobox
+		name="recordType"
+		label="Object for List of Records"
+		value={recordType}
+		placeholder="Select object..."
+		options={typeOptions}
+		onchange={handleRecordTypeChange}>
+	</lightning-combobox>
+	<lightning-combobox
+		name="records"
+		label="Record Variable"
+		value={records}
+		placeholder="Select record collection..."
+		options={recordOptions}
+		onchange={handleRecordsChange}>
+	</lightning-combobox>
+	<lightning-combobox
+		name="emailField"
+		label="Email Field to Use for Recipient"
+		value={emailField}
+		placeholder="Select field..."
+		options={emailOptions}
+		onchange={handleEmailFieldChange}>
+	</lightning-combobox>
+	<lightning-input label="Subject of email" name="subject" value={emailSubject}></lightning-input>
+	<lightning-textarea label="Body text of email" name="emailBody" value={emailBody}></lightning-textarea>
+fieldMap
+	<div class="slds-p-bottom_medium"></div>
+</template>

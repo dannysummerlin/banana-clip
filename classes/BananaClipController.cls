@@ -1,6 +1,33 @@
+// NOTES
+// SelectRecordAction.cls
+// public with sharing class SelectRecordAction {
+//     @InvocableMethod(configurationEditor='c-select-record-editor')
+//     public static List <Results> selectRecord(List<Requests> requestList) {
+//         List<SObject> inputCollection = requestList[0].inputCollection;
+//         //Store the first input record for output
+//         SObject outputMember = inputCollection[0];
+//         Results response = new Results();
+//         response.outputMember = outputMember;
+//         List<Results> responseWrapper= new List<Results>();
+//         responseWrapper.add(response);
+//         return responseWrapper;
+//     }
+
+// public class Requests {
+//     @InvocableVariable(label='Object for Input' description='Records for Input')
+//     public List<SObject> inputCollection;
+//     }
+
+// public class Results {
+//     @InvocableVariable(label='Object for Storing Output' description='Records for Output')
+//     public SObject outputMember;
+//     }
+// }
+
+
 public class BananaClipController {
-	@InvocableMethod(label='Create MailGun Job' description='Select a MailGun template and send to recipients')
-	public static List<String> queueMailGunJob(List<BananaClipController.BananaClip> inputs) {
+	@InvocableMethod(label='Create MailGun Job' description='Select a MailGun template and send to recipients' configurationEditor='c-banana-clip-settings')
+	public static List<String> queueMailGunJob(List<BananaClip> inputs) {
 		List<String> results = new String[inputs.size() - 1]; // can't remember if .size is 0 based or not
 		Map<String,Map<String,String>> rawData = new Map<String,Map<String,String>>(); // can't remember if .size is 0 based or not
 		for (Integer i = inputs.size(); i >= 0; --i ) {
@@ -23,6 +50,7 @@ public class BananaClipController {
 			Map<String,String> sendingJSON = Map<String,String>();
 			requestData.put('template', current.templateName);
 			requestData.put('recipients', current.rawData);
+			// placeholders
 			String sendingJSON = JSON.stringify(requestData);
 			results[i] = callWebService(url, sendingJSON);
 		}
@@ -37,13 +65,15 @@ public class BananaClipController {
 
 	public class BananaClip {
 		@AuraEnabled @InvocableVariable(label='Template' description='Template to use' required=true)
-		public String templateName; // looking to make the interface for this dynamic, pulling the templates and pre-populating a single select control
+		public String templateName;
 		@AuraEnabled @InvocableVariable(label='Record Collection' description='Records to use for sending' required=true)
 		public List<sObject> records;
 		@AuraEnabled @InvocableVariable(label='API Name of Email Field' description='The field on the records you want to put in the To: field' required=true)
 		public String emailField;
-		// ends up being a text area with hand entered data. If possible would be good to parse the template field list and then offer drop downs for each to
-		// be selected - the custom options feature could be the way to go here
+		@AuraEnabled @InvocableVariable(label='Subject Line' description='The subject of the email' required=true)
+		public String emailSubject;
+		@AuraEnabled @InvocableVariable(label='Email Body' description='The body of the email. Please use the field map to include recipient-specific information' required=true)
+		public String emailBody;
 		@AuraEnabled @InvocableVariable(label='Field Map' description='Write one pair per line in the form <Salesforce Field Name> = <MailGun template field>' required=true)
 		public String fieldMap; // string v long text?
 	}
